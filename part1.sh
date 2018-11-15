@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sudo su
 echo Script has been loaded, running updates.
 sudo apt-get update
 echo Running upgrades.
