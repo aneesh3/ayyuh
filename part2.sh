@@ -1,8 +1,11 @@
-cat <<EOT >> /etc/dhcpcd.conf
+#!/bin/sh
+sudo su
+cat <<EOT>> /etc/dhcpcd.conf
 interface wlan0
     static ip_address=192.168.4.1/24
     nohook wpa_supplicant
 EOT
+sudo systemctl daemon-reload
 sudo service dhcpcd restart
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig  
 touch /etc/dnsmasq.conf
@@ -27,7 +30,8 @@ wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
 EOT
-mv /etc/defaults/hostapd /etc/defaults/hostapd.orig
+cd /etc/
+sudo mkdir defaults
 touch /etc/defaults/hostapd
 cat <<EOT> /etc/defaults/hostapd
 DAEMON_CONF="/etc/hostapd/hostapd.conf"
@@ -35,4 +39,4 @@ DAEMON_OPTS="/etc/hostapd/hostapd.conf"
 EOT
 sudo systemctl start hostapd
 sudo systemctl start dnsmasq
-echo Done, now edit the sysctl file.
+echo Done, now edit the sysctl file and uncomment ipv4 forwarding.
