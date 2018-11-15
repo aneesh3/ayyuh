@@ -1,2 +1,0 @@
-# ayyuh
-My good stuffs
